@@ -23,7 +23,7 @@ add in `/android/app/src/main/AndroidManifest.xml`
 TODO For Android
 
 - [x] Check bluetooth available
-- [ ] Establishing a BLE connection
+- [ ] Establishing a connection
 - [ ] Discover devices
 - [ ] Discover services
 - [ ] Read / write a characteristic
@@ -34,9 +34,9 @@ TODO For Android
 
 TODO For IOS
 
+- [ ] Support IOS
 - [ ] Check bluetooth available
-- [ ] Implement IOS
-- [ ] Establishing a BLE connection
+- [ ] Establishing a connection
 - [ ] Discover devices
 - [ ] Discover services
 - [ ] Read / write a characteristic

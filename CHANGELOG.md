@@ -13,3 +13,7 @@
 ## 0.0.2+2
 
 * Change descriptions in readme and improvement example.
+
+## 0.0.2+3
+
+* Change description in readme.
