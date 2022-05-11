@@ -10,7 +10,6 @@ Call
 
     XunilBlueConnect blueConnect = XunilBlueConnect();
 
-  
 
 **And use like these as async**
 
@@ -26,24 +25,38 @@ Apply location permission
 
     await blueConnect.applyPermissionLocation();
 
+Bluetooth set enable
+
+    await blueConnect.bluetoothSetEnable();
+
+Bluetooth set disable
+
+    await blueConnect.bluetoothSetDisable();
+
 
 For Bluetooth and location permission
 
 add in `/android/app/src/main/AndroidManifest.xml`
 
+For Bluetooth
+
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission  android:name="android.permission.ACCESS_COARSE_LOCATION"  />
-    <uses-permission  android:name="android.permission.ACCESS_FINE_LOCATION"  />
-    <uses-permission  android:name="android.permission.ACCESS_BACKGROUND_LOCATION"  />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"  />
 
+For Location
 
-  
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"  />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"  />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"  />
+
 
 TODO For Android
 
 - [x] Check location setting
 - [x] Apply location permission
 - [x] Check bluetooth available
+- [x] Bluetooth set enable
+- [x] Bluetooth set disable
 - [ ] Establishing a connection
 - [ ] Discover devices
 - [ ] Discover services
@@ -59,6 +72,8 @@ TODO For IOS
 - [ ] Check location setting
 - [ ] Apply location permission
 - [ ] Check bluetooth available
+- [ ] Bluetooth set enable
+- [ ] Bluetooth set disable
 - [ ] Establishing a connection
 - [ ] Discover devices
 - [ ] Discover services

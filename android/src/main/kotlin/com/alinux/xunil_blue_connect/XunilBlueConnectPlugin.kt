@@ -46,6 +46,7 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, C
   private lateinit var locationManager: LocationManager
   var intent1: Intent? = null
   var locationPermission: Boolean = false
+  val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
   override fun onCreate(savedInstanceState : Bundle?) {
     super.onCreate(savedInstanceState)
@@ -80,6 +81,8 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, C
       "IS_BLUETOOTH_AVAILABLE" -> isBluetoothAvailable(result)
       "CHECK_SETTING_LOCATION" -> isOnLocation(result)
       "APPLY_PERMISSION_LOCATION" -> applyPermissionLocation(result)
+      "SET_BLUETOOTH_ENABLE" -> bluetoohSetEnable()
+      "SET_BLUETOOTH_DISABLE" -> bluetoohSetDisable()
       "DISCOVER_DEVICES" -> discoverDevices(result)
 
       else -> result.notImplemented()
@@ -91,10 +94,9 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, C
   }
 
   fun isBluetoothAvailable(result: Result) {
-    val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
     //if bluetooth is null means the device doesn't support bluetooth
-    if(bluetoothAdapter == null){
+    if(this.bluetoothAdapter == null){
 
       Log.d("isBluetoothAvailable", "Bluetooth is NULL")
 
@@ -106,7 +108,7 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, C
 
     //if bluetooth is true means the device's bluetooh is active
     //if not means the device's bluetooh isn't active
-    result.success(bluetoothAdapter.isEnabled());
+    result.success(this.bluetoothAdapter.isEnabled());
   }
 
   fun applyPermissionLocation(result: Result){
@@ -143,6 +145,24 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, C
     }
 
     result.success(isOnLocation)
+  }
+
+  fun bluetoohSetEnable(){
+
+    if(!this.bluetoothAdapter.isEnabled())
+    {
+      this.bluetoothAdapter.enable()
+      Log.d("bluetoohSetEnable", "Enable")
+    }
+  }
+
+  fun bluetoohSetDisable(){
+
+    if(this.bluetoothAdapter.isEnabled())
+    {
+      this.bluetoothAdapter.disable()
+      Log.d("bluetoohSetDisable", "Disable")
+    }
   }
 
   fun discoverDevices(result: Result){

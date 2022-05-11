@@ -24,4 +24,12 @@ class XunilBlueConnect {
 
     return isPermissionLocation;
   }
+
+  Future<void> bluetoothSetEnable() async {
+    await _channel.invokeMethod('SET_BLUETOOTH_ENABLE');
+  }
+
+  Future<void> bluetoothSetDisable() async {
+    await _channel.invokeMethod('SET_BLUETOOTH_DISABLE');
+  }
 }

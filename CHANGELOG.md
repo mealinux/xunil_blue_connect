@@ -21,3 +21,7 @@
 ## 0.0.3
 
 * Add apply lcoation permission, check location setting and some code improvement
+
+## 0.0.3+1
+
+* Add bluetooth enable and disable

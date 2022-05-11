@@ -79,17 +79,27 @@ class _BodyState extends State<MainBody> {
                   },
                   child: const Text('Check Bluetooth'),
                 ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
                 ElevatedButton(
                   onPressed: () async {
                     //call the function but as async
-                    //but if function return null means the device's location is off
-                    var isLocation = await blueConnect.checkSettingLocation();
-
-                    setState(() {
-                      _isLocationOn = isLocation;
-                    });
+                    //bluetoothenable turn on
+                    await blueConnect.bluetoothSetEnable();
                   },
-                  child: const Text('Check Location'),
+                  child: const Text('Set Bluetooth Enable'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    //call the function but as async
+                    //bluetoothenable turn off
+                    await blueConnect.bluetoothSetDisable();
+                  },
+                  child: const Text('Set Bluetooth Disable'),
                 )
               ],
             ),
@@ -108,6 +118,18 @@ class _BodyState extends State<MainBody> {
                     });
                   },
                   child: const Text('Apply Location Permission'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    //call the function but as async
+                    //but if function return null means the device's location is off
+                    var isLocation = await blueConnect.checkSettingLocation();
+
+                    setState(() {
+                      _isLocationOn = isLocation;
+                    });
+                  },
+                  child: const Text('Check Location'),
                 )
               ],
             ),
