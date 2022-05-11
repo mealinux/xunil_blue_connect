@@ -1,6 +1,6 @@
 name: xunil_blue_connect
-description: This plugin is bluetooth connect and management.
-version: 0.0.2+3
+description: This plugin is bluetooth connect and management also check location setting and apply location permission.
+version: 0.0.3
 homepage: https://alikilic.com.tr
 repository: https://github.com/mealinux/xunil_blue_connect
 
@@ -29,7 +29,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.xunil_blue_connect
+        package: com.alinux.xunil_blue_connect
         pluginClass: XunilBlueConnectPlugin
 
   # To add assets to your plugin package, add an assets section, like this:

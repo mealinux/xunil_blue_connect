@@ -17,3 +17,7 @@
 ## 0.0.2+3
 
 * Change description in readme.
+
+## 0.0.3
+
+* Add apply lcoation permission, check location setting and some code improvement

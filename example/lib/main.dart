@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
       home: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Plugin bluetooth check app'),
+            title: const Text('Basic bluetooth management'),
           ),
           body: const Center(
             child: MainBody(),
@@ -40,6 +40,8 @@ class MainBody extends StatefulWidget {
 
 class _BodyState extends State<MainBody> {
   bool _isBluetoothAvailable = false;
+  bool _isLocationAvailable = false;
+  bool _isLocationOn = false;
 
   //call the class
   XunilBlueConnect blueConnect = XunilBlueConnect();
@@ -53,18 +55,62 @@ class _BodyState extends State<MainBody> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Bluetooth is ${_isBluetoothAvailable ? 'ON' : 'OFF'}'),
-            ElevatedButton(
-              onPressed: () async {
-                //call the function but as async
-                //but if function return null means the device doesn't support bluetooth
-                var isBlue = await blueConnect.isBluetoothAvailable();
-                setState(() {
-                  _isBluetoothAvailable = isBlue;
-                });
-              },
-              child: const Text('Check'),
-            )
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('Bluetooth is ${_isBluetoothAvailable ? 'ON' : 'OFF'}'),
+                Text(
+                    'Location permission is ${_isLocationAvailable ? 'ON' : 'OFF'}'),
+                Text('Location setting is ${_isLocationOn ? 'ON' : 'OFF'}'),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    //call the function but as async
+                    //but if function return null means the device doesn't support bluetooth
+                    var isBlue = await blueConnect.isBluetoothAvailable();
+                    setState(() {
+                      _isBluetoothAvailable = isBlue;
+                    });
+                  },
+                  child: const Text('Check Bluetooth'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    //call the function but as async
+                    //but if function return null means the device's location is off
+                    var isLocation = await blueConnect.checkSettingLocation();
+
+                    setState(() {
+                      _isLocationOn = isLocation;
+                    });
+                  },
+                  child: const Text('Check Location'),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    //call the function but as async
+                    //but if function return null means the device's location permission is off
+                    var apply = await blueConnect.applyPermissionLocation();
+
+                    setState(() {
+                      _isLocationAvailable = apply;
+                    });
+                  },
+                  child: const Text('Apply Location Permission'),
+                )
+              ],
+            ),
           ],
         ),
       ),

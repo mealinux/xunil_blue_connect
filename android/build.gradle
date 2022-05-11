@@ -1,4 +1,4 @@
-group 'com.example.xunil_blue_connect'
+group 'com.alinux.xunil_blue_connect'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -47,4 +47,7 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.activity:activity-ktx:1.4.0"
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'androidx.appcompat:appcompat-resources:1.4.1'
 }
