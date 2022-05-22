@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 
 class XunilBlueConnect {
   static const MethodChannel _channel = MethodChannel('bluetooth');
+  static const EventChannel _eventStartStreamChannel =
+      EventChannel('bluetoothStartStream');
 
   Future<bool> isBluetoothAvailable() async {
     final bool isBluetoothAvailable =
@@ -18,6 +20,13 @@ class XunilBlueConnect {
     return checkSettingLocation;
   }
 
+  Future<bool> goLocationForEnable() async {
+    var goLocationForEnable =
+        await _channel.invokeMethod('GO_LOCATION_FOR_ENABLE');
+
+    return goLocationForEnable;
+  }
+
   Future<bool> applyPermissionLocation() async {
     var isPermissionLocation =
         await _channel.invokeMethod('APPLY_PERMISSION_LOCATION');
@@ -31,5 +40,17 @@ class XunilBlueConnect {
 
   Future<void> bluetoothSetDisable() async {
     await _channel.invokeMethod('SET_BLUETOOTH_DISABLE');
+  }
+
+  Future<void> startDiscovery() async {
+    await _channel.invokeMethod('START_DISCOVERY');
+  }
+
+  Future<void> stopDiscovery() async {
+    await _channel.invokeMethod('STOP_DISCOVERY');
+  }
+
+  Stream get listenResults async* {
+    yield* _eventStartStreamChannel.receiveBroadcastStream();
   }
 }

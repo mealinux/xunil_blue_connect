@@ -1,89 +1,113 @@
 package com.alinux.xunil_blue_connect
 
-import android.app.Activity;
-import android.content.Context
-import android.os.Bundle;
-import android.os.Build
-import android.util.Log
+//import com.google.android.gms.location.LocationRequest;
+//import com.google.android.gms.location.LocationServices;
+//import com.google.android.gms.location.LocationCallback;
+//import com.google.android.gms.location.LocationResult;
+//import com.google.android.gms.location.LocationSettingsRequest;
+//import com.google.android.gms.location.SettingsClient;
+//import com.google.android.gms.location.LocationSettingsResponse;
 import android.provider.Settings
-
-import android.content.ActivityNotFoundException
+//import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.IntentFilter
+import android.content.BroadcastReceiver
+//import androidx.activity.result.contract.ActivityResultContracts
+//import android.widget.Toast
+//import android.os.Build
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Parcelable
+import android.os.ParcelUuid
+import android.util.Log
 
 import androidx.annotation.NonNull
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.ComponentActivity
-import android.bluetooth.BluetoothAdapter
-import android.widget.Toast
+
 import androidx.core.content.ContextCompat
 import androidx.core.app.ActivityCompat
+
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.content.pm.PackageManager
-
+import android.content.Context
 import android.location.LocationManager
-
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.location.LocationSettingsResponse;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
+
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
+import io.flutter.plugin.common.EventChannel
+import io.flutter.plugin.common.EventChannel.StreamHandler
+import io.flutter.plugin.common.EventChannel.EventSink
+
 /** XunilBlueConnectPlugin */
-class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, ComponentActivity() {
-  private lateinit var channel: MethodChannel
-  private lateinit var context: Context
-  private var activity: Activity? = null
-  private var mLocationRequest: LocationRequest? = null
-  private lateinit var locationManager: LocationManager
+class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler, ActivityAware, ComponentActivity() {
+  //private var mLocationRequest: LocationRequest? = null
   var intent1: Intent? = null
+  protected lateinit var channel: MethodChannel
+  protected lateinit var eventStartStreamChannel: EventChannel
+  protected lateinit var context: Context
+  protected var activity: Activity? = null
+  protected var result: Result? = null
+  private lateinit var locationManager: LocationManager
   var locationPermission: Boolean = false
   val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+  var eventSink: EventChannel.EventSink? = null
 
-  override fun onCreate(savedInstanceState : Bundle?) {
-    super.onCreate(savedInstanceState)
-    Log.d("onCreate", "onCreate çalıştı")
+  companion object {
+      private const val NEW_DEVICE = "NEW_DEVICE"
   }
-  
+/*   override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate()
+
+    val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+    registerReceiver(receiver, filter)
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+
+    unregisterReceiver(receiver)
+  } */
+
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "bluetooth")
     channel.setMethodCallHandler(this)
 
+    eventStartStreamChannel = EventChannel(flutterPluginBinding.binaryMessenger, "bluetoothStartStream")
+    eventStartStreamChannel.setStreamHandler(this)
+
     this.context = flutterPluginBinding.applicationContext
   }
 
-  override fun onDetachedFromActivity() {
-      TODO("Not yet implemented")
-  }
+  override fun onDetachedFromActivity() {}
 
-  override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-      TODO("Not yet implemented")
-  }
+  override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {}
+
+  override fun onDetachedFromActivityForConfigChanges() {}
 
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
       this.activity = binding.activity;
-  }
-
-  override fun onDetachedFromActivityForConfigChanges() {
-      TODO("Not yet implemented")
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
     when(call.method){
       "IS_BLUETOOTH_AVAILABLE" -> isBluetoothAvailable(result)
       "CHECK_SETTING_LOCATION" -> isOnLocation(result)
+      "GO_LOCATION_FOR_ENABLE" -> goLocationForEnable(result)
       "APPLY_PERMISSION_LOCATION" -> applyPermissionLocation(result)
       "SET_BLUETOOTH_ENABLE" -> bluetoohSetEnable()
       "SET_BLUETOOTH_DISABLE" -> bluetoohSetDisable()
-      "DISCOVER_DEVICES" -> discoverDevices(result)
+      "START_DISCOVERY" -> startDiscovery(result)
+      "STOP_DISCOVERY" -> stopDiscovery(result)
+
 
       else -> result.notImplemented()
     }
@@ -115,7 +139,7 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, C
 
     var locationPermission: Boolean = false
 
-     if (ContextCompat.checkSelfPermission(this.context,
+    if (ContextCompat.checkSelfPermission(this.context,
         android.Manifest.permission.ACCESS_FINE_LOCATION) !==
         PackageManager.PERMISSION_GRANTED) {
 
@@ -123,12 +147,14 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, C
                 android.Manifest.permission.ACCESS_FINE_LOCATION,
                 android.Manifest.permission.ACCESS_BACKGROUND_LOCATION),
                 1)
-      }else{
-          locationPermission = true
-          Log.d("applyPermissionLocation", "Location permission granted")
-      }
+    }
+    else{
+        locationPermission = true
 
-      result.success(locationPermission)
+        Log.d("applyPermissionLocation", "Location permission granted")
+    }
+
+    result.success(locationPermission)
   }
 
   fun isOnLocation(result: Result){
@@ -138,18 +164,40 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, C
 
     if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
       Log.d("isEnableOrDisable", "Enable")
+
       isOnLocation = true
-    }else{
+    }
+    else{
       Log.d("isEnableOrDisable", "Disable")
+
       isOnLocation = false
     }
 
     result.success(isOnLocation)
   }
 
+  fun goLocationForEnable(result: Result){
+    var goLocationForEnable: Boolean = false
+
+    val locationManager = this.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+    if(! locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+        this.activity!!.startActivityForResult(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 1)
+
+        goLocationForEnable = true
+    }
+    else{
+     
+      Log.d("goLocationForEnable", "Already still enable")
+      goLocationForEnable = true
+    }
+
+    result.success(goLocationForEnable)
+  }
+
   fun bluetoohSetEnable(){
 
-    if(!this.bluetoothAdapter.isEnabled())
+    if(! this.bluetoothAdapter.isEnabled())
     {
       this.bluetoothAdapter.enable()
       Log.d("bluetoohSetEnable", "Enable")
@@ -165,8 +213,98 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, C
     }
   }
 
-  fun discoverDevices(result: Result){
+  fun getIsPaired(isPaired: Int): String{
+    return when(isPaired) {
+      10 -> "PAIRED_NONE"
+      11 -> "PAIRING"
+      12 -> "PAIRED"
 
+      else -> "UNKNOWN_PAIRED"
+    }
+  }
+
+  fun getType(type: Int): String{
+    return when(type) {
+      0 -> "DEVICE_TYPE_UNKNOWN"
+      1 -> "DEVICE_TYPE_CLASSIC"
+      2 -> "DEVICE_TYPE_LE"
+      3 -> "DEVICE_TYPE_DUAL"
+      -2147483648 -> "ERROR"
+
+      else -> "UNKNOWN_TYPE"
+    }
+  }
+
+  protected val receiver = object : BroadcastReceiver() {
+
+      override fun onReceive(context: Context, intent: Intent) {
+          val action: String? = intent.action
+          when(action!!) {
+              BluetoothDevice.ACTION_FOUND -> {
+                val device: BluetoothDevice? =
+                        intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+
+                getDeviceInfo(device!!)
+              }
+          }
+      }
+  }
+
+  fun getDeviceInfo(device: BluetoothDevice?){
+    val uuids = mutableMapOf<String, String>()
+
+    //only get paired device's uuids
+    if(device!!.getUuids() != null)
+    {
+      device!!.getUuids().forEachIndexed{index: Int, uuid: ParcelUuid -> 
+        uuids.put("uuid$index", uuid.getUuid().toString())
+      }
+    }
+                
+    val deviceName = device!!.name
+    val deviceAliasName = device!!.getAlias()
+    val deviceHardwareAddress = device!!.address 
+    val type = device!!.getType()
+    val isPaired = device!!.getBondState()
+    val allUuids = uuids
+
+    eventSink!!.success(
+      mapOf(
+          "name" to deviceName.toString(), 
+          "aliasName" to deviceAliasName.toString(),
+          "address" to deviceHardwareAddress.toString(),
+          "type" to getType(type).toString(),
+          "isPaired" to getIsPaired(isPaired).toString(),
+          "uuids" to allUuids.entries.joinToString()
+        )
+      )
+  }
+
+  fun startDiscovery (result: Result){
+    var valueD = this.bluetoothAdapter.startDiscovery()
+    Log.d("startDiscovery", when(valueD){true -> "true" false -> "false"})
+    Log.d("stopDiscovery", "discovery started")
+
+    val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+    this.context.registerReceiver(this.receiver, filter)
+
+    result!!.success(valueD)
+  }  
+  
+  fun stopDiscovery (result: Result){
+    this.context.unregisterReceiver(this.receiver)
+
+    Log.d("stopDiscovery", "discovery stopped")
+
+    result!!.success(true)
+  }
+
+  override fun onListen(arguments: Any?, eventSink: EventChannel.EventSink?) {
+      this.eventSink = eventSink
+  }
+
+  override fun onCancel(arguments: Any?) {
+      this.eventSink = null
   }
 
 }

@@ -20,8 +20,12 @@
 
 ## 0.0.3
 
-* Add apply lcoation permission, check location setting and some code improvement
+* Added apply lcoation permission, check location setting and some code improvement
 
 ## 0.0.3+1
 
-* Add bluetooth enable and disable
+* Added bluetooth enable and disable
+
+## 0.0.4
+
+* Added start/stop discovery and listen devices, code improvement
