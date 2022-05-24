@@ -1,4 +1,3 @@
-
 # xunil_blue_connect
 
 This package is bluetooth management.
@@ -13,39 +12,40 @@ Call
 
 ## **And use like these as async**
 
-**Bluetooth check available**
+***Bluetooth check available***
 
     await blueConnect.isBluetoothAvailable();
 
-**Check location setting**
+***Check location setting***
 
     await blueConnect.checkSettingLocation();
 
-**Apply location permission**
+***Apply location permission***
 
     await blueConnect.applyPermissionLocation();
 
-**Bluetooth set enable**
+***Bluetooth set enable***
 
     await blueConnect.bluetoothSetEnable();
 
-**Bluetooth set disable**
+***Bluetooth set disable***
 
     await blueConnect.bluetoothSetDisable();
 
-**Scan for devices**
+****Scan for devices****
 
-first start discovery
+***first start discovery***
 
     await blueConnect.startDiscovery();
 
-then listen results
+***then listen results***
 
     blueConnect.listenResults.listen((device){
-    	print(device);
+	    print(device);
     });
 
-if you stop listening
+
+***if you stop listening***
 
     await blueConnect.stopDiscovery();
 
@@ -63,37 +63,36 @@ for example: `94:E9:79:AA:8B:8E`
 `type` -> device's type
 for example: `PLEASE READ NOTE`
 
-`isPaired` ->	device's pair status
+`isPaired` -> device's pair status
 for example: `PLEASE READ NOTE 2`
 
 `uuids` -> device's uuid or uuids
 for example: `0000110a-0000-1000-8000-00805f9b34fb`
 
-
 >NOTE: Device types return as DEVICE_TYPE_UNKNOWN, DEVICE_TYPE_CLASSIC, DEVICE_TYPE_LE, DEVICE_TYPE_DUAL, ERROR.
->if returns any case expect those is UNKNOWN_TYPE 
+if returns any case expect those is UNKNOWN_TYPE
 
-> NOTE 2: Device pair returns as PAIRED, PAIRED_NONE, PAIRING.
+>NOTE 2: Device pair returns as PAIRED, PAIRED_NONE, PAIRING.
 if returns any case expect those is UNKNOWN_PAIRED
 
 
-For Bluetooth and location permission
+***For Bluetooth and location permission***
 
 add in `/android/app/src/main/AndroidManifest.xml`
 
-For Bluetooth
-  
+***For Bluetooth***
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-For Location
+***For Location***
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> 
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
 TODO For Android
+
 - [x] Check location setting
 - [x] Apply location permission
 - [x] Check bluetooth available
@@ -110,6 +109,7 @@ TODO For Android
 - [ ] Negotiate MTU size
 
 TODO For IOS
+
 - [ ] Support IOS
 - [ ] Check location setting
 - [ ] Apply location permission

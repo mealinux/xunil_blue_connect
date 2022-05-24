@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 class XunilBlueConnect {
   static const MethodChannel _channel = MethodChannel('bluetooth');
   static const EventChannel _eventStartStreamChannel =
-      EventChannel('bluetoothStartStream');
+      EventChannel('bluetoothStream');
 
   Future<bool> isBluetoothAvailable() async {
     final bool isBluetoothAvailable =

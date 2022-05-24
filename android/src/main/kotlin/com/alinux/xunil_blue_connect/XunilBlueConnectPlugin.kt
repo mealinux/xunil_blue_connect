@@ -1,20 +1,9 @@
 package com.alinux.xunil_blue_connect
 
-//import com.google.android.gms.location.LocationRequest;
-//import com.google.android.gms.location.LocationServices;
-//import com.google.android.gms.location.LocationCallback;
-//import com.google.android.gms.location.LocationResult;
-//import com.google.android.gms.location.LocationSettingsRequest;
-//import com.google.android.gms.location.SettingsClient;
-//import com.google.android.gms.location.LocationSettingsResponse;
 import android.provider.Settings
-//import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.BroadcastReceiver
-//import androidx.activity.result.contract.ActivityResultContracts
-//import android.widget.Toast
-//import android.os.Build
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -49,7 +38,7 @@ import io.flutter.plugin.common.EventChannel.EventSink
 
 /** XunilBlueConnectPlugin */
 class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler, ActivityAware, ComponentActivity() {
-  //private var mLocationRequest: LocationRequest? = null
+
   var intent1: Intent? = null
   protected lateinit var channel: MethodChannel
   protected lateinit var eventStartStreamChannel: EventChannel
@@ -81,7 +70,7 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, EventChannel.Str
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "bluetooth")
     channel.setMethodCallHandler(this)
 
-    eventStartStreamChannel = EventChannel(flutterPluginBinding.binaryMessenger, "bluetoothStartStream")
+    eventStartStreamChannel = EventChannel(flutterPluginBinding.binaryMessenger, "bluetoothStream")
     eventStartStreamChannel.setStreamHandler(this)
 
     this.context = flutterPluginBinding.applicationContext
@@ -283,7 +272,7 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, EventChannel.Str
   fun startDiscovery (result: Result){
     var valueD = this.bluetoothAdapter.startDiscovery()
     Log.d("startDiscovery", when(valueD){true -> "true" false -> "false"})
-    Log.d("stopDiscovery", "discovery started")
+    Log.d("startDiscovery", "discovery started")
 
     val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
     this.context.registerReceiver(this.receiver, filter)

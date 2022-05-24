@@ -29,3 +29,7 @@
 ## 0.0.4
 
 * Added start/stop discovery and listen devices, code improvement
+
+## 0.0.4+1
+
+* improve some codes, clean some comments and codes
