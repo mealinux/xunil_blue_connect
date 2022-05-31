@@ -17,6 +17,8 @@ import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.core.app.ActivityCompat
 
+/* import androidx.appcompat.app.AppCompatActivity; */
+
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.pm.PackageManager
@@ -49,22 +51,30 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, EventChannel.Str
   var locationPermission: Boolean = false
   val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
   var eventSink: EventChannel.EventSink? = null
+  var filter: IntentFilter? = null
 
-  companion object {
-      private const val NEW_DEVICE = "NEW_DEVICE"
-  }
 /*   override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate()
-
-    val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-    registerReceiver(receiver, filter)
+    super.onCreate(savedInstanceState)
+    Log.d("onCreate", "called onCreate")
   }
 
   override fun onDestroy() {
     super.onDestroy()
-
-    unregisterReceiver(receiver)
+    this.context.unregisterReceiver(this.receiver)
+    Log.d("onDestroy", "called onDestroy")
   } */
+
+  override fun onListen(arguments: Any?, eventSink: EventChannel.EventSink?) {
+    this.eventSink = eventSink
+    this.filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+    this.context.registerReceiver(this.receiver, this.filter)
+    Log.d("onListen", "called onListen")
+  }
+
+  override fun onCancel(arguments: Any?) {
+    this.eventSink = null
+    Log.d("onCancel", "called onCancel")
+  }
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "bluetooth")
@@ -177,7 +187,7 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, EventChannel.Str
     }
     else{
      
-      Log.d("goLocationForEnable", "Already still enable")
+      Log.d("goLocationForEnable", "Already still enabled")
       goLocationForEnable = true
     }
 
@@ -259,41 +269,29 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, EventChannel.Str
 
     eventSink!!.success(
       mapOf(
-          "name" to deviceName.toString(), 
-          "aliasName" to deviceAliasName.toString(),
-          "address" to deviceHardwareAddress.toString(),
-          "type" to getType(type).toString(),
-          "isPaired" to getIsPaired(isPaired).toString(),
+          "name" to deviceName?.toString(),
+          "aliasName" to deviceAliasName?.toString(),
+          "address" to deviceHardwareAddress?.toString(),
+          "type" to getType(type)?.toString(),
+          "isPaired" to getIsPaired(isPaired)?.toString(),
           "uuids" to allUuids.entries.joinToString()
         )
       )
   }
 
   fun startDiscovery (result: Result){
-    var valueD = this.bluetoothAdapter.startDiscovery()
-    Log.d("startDiscovery", when(valueD){true -> "true" false -> "false"})
+    var valueBS = this.bluetoothAdapter.startDiscovery()
+    Log.d("startDiscovery", when(valueBS){true -> "true" false -> "false"})
     Log.d("startDiscovery", "discovery started")
 
-    val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-    this.context.registerReceiver(this.receiver, filter)
-
-    result!!.success(valueD)
+    result!!.success(valueBS)
   }  
   
   fun stopDiscovery (result: Result){
+    this.bluetoothAdapter.cancelDiscovery()
     this.context.unregisterReceiver(this.receiver)
-
     Log.d("stopDiscovery", "discovery stopped")
 
     result!!.success(true)
   }
-
-  override fun onListen(arguments: Any?, eventSink: EventChannel.EventSink?) {
-      this.eventSink = eventSink
-  }
-
-  override fun onCancel(arguments: Any?) {
-      this.eventSink = null
-  }
-
 }

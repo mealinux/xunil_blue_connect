@@ -33,3 +33,7 @@
 ## 0.0.4+1
 
 * improve some codes, clean some comments and codes
+
+## 0.0.4+2
+
+* fixed some bugs and improved code

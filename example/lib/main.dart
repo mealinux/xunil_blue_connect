@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:xunil_blue_connect/xunil_blue_connect.dart';
 import 'package:xunil_blue_connect_example/device.dart';
-import 'package:xunil_blue_connect_example/utils_enum.dart';
 
 void main() {
   runApp(const MyApp());
@@ -93,6 +94,12 @@ class _BodyState extends State<MainBody> {
                   await blueConnect.startDiscovery();
                   setState(() {
                     isLoading = true;
+                  });
+                  Timer(const Duration(seconds: 13), () async {
+                    await blueConnect.stopDiscovery();
+                    setState(() {
+                      isLoading = false;
+                    });
                   });
                 },
                 child: const Text('Start Discovery'),

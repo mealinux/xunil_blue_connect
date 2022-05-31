@@ -12,49 +12,49 @@ Call
 
 ## **And use like these as async**
 
-***Bluetooth check available***
+**Bluetooth check available**
 
     await blueConnect.isBluetoothAvailable();
 
-***Check location setting***
+**Check location setting**
 
     await blueConnect.checkSettingLocation();
 
-***Apply location permission***
+**Apply location permission**
 
     await blueConnect.applyPermissionLocation();
 
-***Bluetooth set enable***
+**Bluetooth set enable**
 
     await blueConnect.bluetoothSetEnable();
 
-***Bluetooth set disable***
+**Bluetooth set disable**
 
     await blueConnect.bluetoothSetDisable();
 
-****Scan for devices****
+***Scan for devices***
 
-***first start discovery***
+**first start discovery**
 
     await blueConnect.startDiscovery();
 
-***then listen results***
+**then listen results**
 
     blueConnect.listenResults.listen((device){
 	    print(device);
     });
 
 
-***if you stop listening***
+**if you stop listening**
 
     await blueConnect.stopDiscovery();
 
 **Scan returns these parameter;**
 
-`name` -> device's name, hardware given
+`name` -> device's name, given by hardware (default)
 for example: `alikilic`
 
-`aliasName` -> device's name, user given
+`aliasName` -> device's name, given by user
 for example: `Ali Kılıç's Laptop`
 
 `address` -> device's mac address (only android)
@@ -80,12 +80,12 @@ if returns any case expect those is UNKNOWN_PAIRED
 
 add in `/android/app/src/main/AndroidManifest.xml`
 
-***For Bluetooth***
+**For Bluetooth**
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-***For Location***
+**For Location**
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
