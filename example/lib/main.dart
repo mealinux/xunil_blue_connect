@@ -54,7 +54,7 @@ class _BodyState extends State<MainBody> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.85,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,6 +73,10 @@ class _BodyState extends State<MainBody> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      _isBluetoothAvailable ? Colors.lightGreen : Colors.blue),
+                ),
                 onPressed: () async {
                   //call the function but as async
                   //but if function return null means the device doesn't support bluetooth
@@ -120,11 +124,6 @@ class _BodyState extends State<MainBody> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        _isBluetoothAvailable
-                            ? Colors.lightGreen
-                            : Colors.blue)),
                 onPressed: () async {
                   //call the function but as async
                   //bluetoothenable turn on
@@ -189,23 +188,42 @@ class _BodyState extends State<MainBody> {
               )
             ],
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  var devices = await blueConnect.getPairedDevices();
+
+                  print(devices);
+                },
+                child: const Text('Get paired devices'),
+              )
+            ],
+          ),
           if (isLoading)
             const LinearProgressIndicator(color: Colors.orangeAccent),
           StreamBuilder(
             stream: blueConnect.listenResults,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                var device = BluetoothDevice.fromJson(
-                    snapshot.data as Map<Object?, Object?>);
+                var device;
+                var snapshotData = snapshot.data as Map<Object?, Object?>;
 
-                bool isEmpty = devices!
-                    .where(
-                      (localAddress) => localAddress.address == device.address,
-                    )
-                    .isEmpty;
+                if (snapshotData["pairingStatus"] == null) {
+                  device = BluetoothDevice.fromJson(snapshotData);
 
-                if (isEmpty) {
-                  devices?.add(device);
+                  bool isEmpty = devices!
+                      .where(
+                        (localAddress) =>
+                            localAddress.address == device.address,
+                      )
+                      .isEmpty;
+
+                  if (isEmpty) {
+                    devices?.add(device);
+                  }
                 }
 
                 return devices!.isNotEmpty
@@ -215,22 +233,55 @@ class _BodyState extends State<MainBody> {
                         padding: const EdgeInsets.all(10.0),
                         itemBuilder: (context, index) {
                           return ListTile(
-                            title: Text(devices![index].name! +
-                                " (${devices![index].aliasName!})"),
-                            subtitle: Text(devices![index].address!),
-                            trailing: ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    devices![index].isPaired! == "PAIRED"
-                                        ? Colors.lightGreen
-                                        : Colors.blue),
-                              ),
-                              onPressed: () {},
-                              child: Text(devices![index].isPaired! == "PAIRED"
-                                  ? "Paired"
-                                  : "Not Paired"),
-                            ),
-                          );
+                              onTap: () async {
+                                await blueConnect.connect(
+                                    macAddress: devices![index].address!);
+                              },
+                              title: Text(devices![index].name! +
+                                  " (${devices![index].aliasName!})"),
+                              subtitle: Text(devices![index].address!),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              devices![index].isPaired! ==
+                                                      "PAIRED"
+                                                  ? Colors.lightGreen
+                                                  : Colors.blue),
+                                    ),
+                                    onPressed: () async {
+                                      await blueConnect.pair(
+                                          macAddress: devices![index].address!);
+                                    },
+                                    child: Text(
+                                        devices![index].isPaired! == "PAIRED"
+                                            ? "Connect"
+                                            : "Pair"),
+                                  ),
+                                  const SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  if (devices![index].isPaired! == "PAIRED")
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.redAccent[400]),
+                                      ),
+                                      onPressed: () async {
+                                        await blueConnect.disconnect(
+                                            macAddress:
+                                                devices![index].address!);
+                                      },
+                                      child: const Text("Disconnect"),
+                                    ),
+                                ],
+                              ));
                         },
                       )
                     : const SizedBox();

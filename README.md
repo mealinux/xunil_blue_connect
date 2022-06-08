@@ -1,6 +1,24 @@
 # xunil_blue_connect
 
-This package is bluetooth management.
+This package is bluetooth management as basic. The package supports just ANDROID 
+but will get IOS support.
+
+Also the package supports  classic bluetooth now but will get BLE technology soon 
+
+Only For Android now
+
+- [x] Check location setting
+- [x] Apply location permission
+- [x] Check bluetooth available
+- [x] Bluetooth set enable/disable
+- [x] Establishing/Close a connection
+- [x] Pair a device
+- [x] Start/Stop discovery
+- [x] Discover devices
+- [x] Get paired device's service uuids
+- [ ] iOS Support
+- [ ] BLE support
+
 
 import
 
@@ -32,7 +50,7 @@ Call
 
     await blueConnect.bluetoothSetDisable();
 
-***Scan for devices***
+## ***Scan for devices***
 
 **first start discovery**
 
@@ -44,12 +62,7 @@ Call
 	    print(device);
     });
 
-
-**if you stop listening**
-
-    await blueConnect.stopDiscovery();
-
-**Scan returns these parameter;**
+**Scan returns these parameters;**
 
 `name` -> device's name, given by hardware (default)
 for example: `alikilic`
@@ -66,7 +79,7 @@ for example: `PLEASE READ NOTE`
 `isPaired` -> device's pair status
 for example: `PLEASE READ NOTE 2`
 
-`uuids` -> device's uuid or uuids
+`uuids` -> device's uuid or uuids (only for paired devices)
 for example: `0000110a-0000-1000-8000-00805f9b34fb`
 
 >NOTE: Device types return as DEVICE_TYPE_UNKNOWN, DEVICE_TYPE_CLASSIC, DEVICE_TYPE_LE, DEVICE_TYPE_DUAL, ERROR.
@@ -75,8 +88,35 @@ if returns any case expect those is UNKNOWN_TYPE
 >NOTE 2: Device pair returns as PAIRED, PAIRED_NONE, PAIRING.
 if returns any case expect those is UNKNOWN_PAIRED
 
+> NOTE 3: UUIDS return only paired devices
 
-***For Bluetooth and location permission***
+**if you stop listening**
+
+    await blueConnect.stopDiscovery();
+
+## ***Establishing a connection***
+
+> this method takes a parameter ``macAddress`` type ``String``
+
+    await blueConnect.connect(macAddress: device.macAddress);
+
+**if you want to disconnect a connected device**
+
+> this method takes a parameter ``macAddress`` type ``String``
+
+    await blueConnect.disconnect(macAddress: device.macAddress);
+
+## ***Pair a device***
+
+> this method takes a parameter ``macAddress`` type ``String``
+
+    await blueConnect.pair(macAddress: device.macAddress);
+
+**if you want to just get all paired devices**
+
+    await blueConnect.getPairedDevices();
+
+## ***For Bluetooth and location permission***
 
 add in `/android/app/src/main/AndroidManifest.xml`
 
@@ -90,38 +130,3 @@ add in `/android/app/src/main/AndroidManifest.xml`
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
-TODO For Android
-
-- [x] Check location setting
-- [x] Apply location permission
-- [x] Check bluetooth available
-- [x] Bluetooth set enable
-- [x] Bluetooth set disable
-- [ ] Establishing a connection
-- [x] Start/Stop discovery
-- [x] Discover devices
-- [ ] Discover services
-- [ ] Read / write a characteristic
-- [ ] Connection of multiple devices
-- [ ] Implement BLE
-- [ ] Clear GATT cache
-- [ ] Negotiate MTU size
-
-TODO For IOS
-
-- [ ] Support IOS
-- [ ] Check location setting
-- [ ] Apply location permission
-- [ ] Check bluetooth available
-- [ ] Bluetooth set enable
-- [ ] Bluetooth set disable
-- [ ] Establishing a connection
-- [ ] Start/Stop discovery
-- [ ] Discover devices
-- [ ] Discover services
-- [ ] Read / write a characteristic
-- [ ] Connection of multiple devices
-- [ ] Implement BLE
-- [ ] Clear GATT cache
-- [ ] Negotiate MTU size

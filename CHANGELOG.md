@@ -37,3 +37,7 @@
 ## 0.0.4+2
 
 * fixed some bugs and improved code
+
+## 0.0.4+4
+
+* added connect/disconnect a device, pair a device, get paired devices, fixed some bugs and improved code

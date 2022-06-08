@@ -1,3 +1,4 @@
+//Euzübillâhimineşşeytânirracîm bismillâhirrahmânirrahîm
 import 'dart:async';
 import 'package:flutter/services.dart';
 
@@ -52,5 +53,52 @@ class XunilBlueConnect {
 
   Stream get listenResults async* {
     yield* _eventStartStreamChannel.receiveBroadcastStream();
+  }
+
+  Future<void> pair({required macAddress}) async {
+    try {
+      await _channel.invokeMethod('PAIR_TO_DEVICE', {'macAddress': macAddress});
+    } catch (e) {
+      print("Failed to pair: $e");
+    }
+  }
+
+/* 
+
+  TODO remove pair
+
+*/
+/*   Future<String> unpair({required macAddress}) async {
+    var unpairAnswer = "";
+    try {
+      unpairAnswer = await _channel
+          .invokeMethod('UNPAIR_TO_DEVICE', {'macAddress': macAddress});
+    } catch (e) {
+      print("Failed to pair: $e");
+    }
+
+    return unpairAnswer;
+  } */
+
+  Future getPairedDevices() async {
+    return await _channel.invokeMethod('GET_PAIRED_DEVICES');
+  }
+
+  Future<void> connect({required macAddress}) async {
+    try {
+      await _channel
+          .invokeMethod('CONNECT_TO_DEVICE', {'macAddress': macAddress});
+    } catch (e) {
+      print("Failed to connect: $e");
+    }
+  }
+
+  Future<void> disconnect({required macAddress}) async {
+    try {
+      await _channel
+          .invokeMethod('CLOSE_TO_DEVICE', {'macAddress': macAddress});
+    } catch (e) {
+      print("Failed to connect: $e");
+    }
   }
 }
