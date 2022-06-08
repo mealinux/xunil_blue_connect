@@ -26,9 +26,6 @@ import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import androidx.core.app.ActivityCompat
 
-/* import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatActivity */
-
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
@@ -358,7 +355,7 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, EventChannel.Str
 
 */
 
-/* fun removePaired(result: Result, macAddress: String?){
+/* fun removePaired(result: Result, macAddress: String?) {
   var bluetoothDevice: BluetoothDevice = bluetoothAdapter!!.getRemoteDevice(macAddress!!)
 
   var isPaired = getIsPaired(bluetoothDevice.getBondState())?.toString()
