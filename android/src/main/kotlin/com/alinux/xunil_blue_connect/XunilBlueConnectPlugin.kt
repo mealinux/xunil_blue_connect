@@ -62,7 +62,6 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, EventChannel.Str
   protected var filter: IntentFilter? = null
 
   //00001101-0000-1000-8000-00805F9B34FB
-  //0000112f-0000-1000-8000-00805f9b34fb
   protected val forBluetoothConnectionUUID = UUID.fromString("0000112f-0000-1000-8000-00805f9b34fb")
   protected var mmSocket: BluetoothSocket? = null
 
