@@ -1,6 +1,6 @@
 name: xunil_blue_connect
 description: This plugin is bluetooth connect and management also check location setting and apply location permission.
-version: 0.1.0+1
+version: 0.1.0+2
 homepage: https://alikilic.com.tr
 repository: https://github.com/mealinux/xunil_blue_connect
 

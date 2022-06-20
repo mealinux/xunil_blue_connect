@@ -217,18 +217,18 @@ or you can use **StreamBuilder**
 
 **if you want to disconnect from a connected device**
 
->this method takes a parameter ``macAddress`` type ``String``
+> this method takes a parameter ``macAddress`` type ``String``
 
    	// if you want to don't give a parameter so last connection will be disconnect
     await blueConnect.disconnect();
   
   
     // or you can give any connected device's macAddress
-    await blueConnect.connect(macAddress: device.macAddress);
+    await blueConnect.disconnect(macAddress: device.macAddress);
 
 ## ***Pair a device***
 
->this method takes a parameter `macAddress` type `String`
+> this method takes a parameter `macAddress` type `String`
 
     await blueConnect.pair(macAddress: device.macAddress);
 
@@ -249,7 +249,7 @@ or you can use **StreamBuilder**
 
 >Tested virtual printer
 
-    await blueConnect.write(data:"Lorem ipsum dolor sit amet.", autoConnect: true);
+    await blueConnect.write(data: "Lorem ipsum dolor sit amet.", autoConnect: true);
 
 ## ***For Bluetooth and location permission***
 

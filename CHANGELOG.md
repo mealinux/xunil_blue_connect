@@ -49,3 +49,7 @@
 ## 0.1.0+1
 
 * change readme
+
+## 0.1.0+2
+
+* fix readme
