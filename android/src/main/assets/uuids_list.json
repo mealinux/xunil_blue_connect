@@ -1,0 +1,546 @@
+﻿[{
+        "name": "Hands-Free Profile (HFP)",
+        "short_description": "For voice-enabled headsets",
+        "uuid": "0000111E-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Generic Audio Service",
+        "short_description": "Generic audio service",
+        "uuid": "00001203-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "PnP Information",
+        "short_description": "Used to identify devices occasionally",
+        "uuid": "00001200-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "A2DP Source (Advance Audio Distribution)",
+        "short_description": "For streaming to Bluetooth speakers",
+        "uuid": "0000110B-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "AV Remote Control Target Service",
+        "short_description": "For controlling audio remotely",
+        "uuid": "0000110C-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "AV Remote Control Service",
+        "short_description": "For controlling audio remotely",
+        "uuid": "0000110E-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "AV Remote Control Controller Service",
+        "short_description": "For controlling audio remotely",
+        "uuid": "0000110F-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "HID (Human Interface Device)",
+        "short_description": "For classic BR/EDR keyboards and mice",
+        "uuid": "00001124-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Generic Access Attribute",
+        "short_description": "For the LE Protocol",
+        "uuid": "00001801-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "HID Over GATT",
+        "short_description": "For LE keyboards and mice",
+        "uuid": "00001812-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "GAP (Generic Access Profile)",
+        "short_description": "Generic service used by Bluetooth",
+        "uuid": "00001800-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "DID (Device ID)",
+        "short_description": "Generic service used by Bluetooth",
+        "uuid": "0000180A-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Scan Parameters",
+        "short_description": "Generic service used by Bluetooth",
+        "uuid": "00001813-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "OBEX Object Push (OPP)",
+        "short_description": "For file transfer",
+        "uuid": "00001105-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Object Exchange (OBEX)",
+        "short_description": "Protocol for file transfer",
+        "uuid": "00000008-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "SDP",
+        "short_description": "Service Discovery Protocol",
+        "uuid": "00000001-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "UDP",
+        "short_description": "User Datagram Protocol",
+        "uuid": "00000002-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "TCP",
+        "short_description": "Transmission Control Protocol",
+        "uuid": "00000004-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "RFCOMM",
+        "short_description": "Radio frequency communication",
+        "uuid": "00000003-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "TCS-BIN",
+        "short_description": "Binary telephony control protocol",
+        "uuid": "00000005-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "TCS-AT",
+        "short_description": "Binary telephony control protocol AT",
+        "uuid": "00000006-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "ATT",
+        "short_description": "Attribute Protocol",
+        "uuid": "00000007-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "OBEX",
+        "short_description": "Object Exchange",
+        "uuid": "00000008-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "IP",
+        "short_description": "Internet Protocol",
+        "uuid": "00000009-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "FTP",
+        "short_description": "File Transfer Profile",
+        "uuid": "0000000A-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "HTTP",
+        "short_description": "Hypertext Transfer Protocol",
+        "uuid": "0000000C-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "WSP",
+        "short_description": "Wireless session protocol",
+        "uuid": "0000000E-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "BNEP",
+        "short_description": "Bluetooth Network Encapsulation Protocol",
+        "uuid": "0000000F-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "UPNP",
+        "short_description": "Universal Plug and Play",
+        "uuid": "00000010-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "HardcopyControlChannel",
+        "short_description": "Hard copy control channel",
+        "uuid": "00000012-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "HardcopyNotification",
+        "short_description": "Hard copy notification",
+        "uuid": "00000016-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "AVCTP",
+        "short_description": "Audio/Video Control Transmission Protocol",
+        "uuid": "00000017-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "AVCTP",
+        "short_description": "Audio/Video Distribution Transport Protocol",
+        "uuid": "00000019-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "CMTP",
+        "short_description": "CAPI Message Transport Protocol",
+        "uuid": "0000001B-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "MCAPControlChannel",
+        "short_description": "Multi-Channel Adaptation Protocol",
+        "uuid": "0000001E-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "MCAPDataChannel",
+        "short_description": "Multi-Channel Data Protocol",
+        "uuid": "0000001F-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "L2CAP",
+        "short_description": "Logical Link Control and Adaptation Protocol",
+        "uuid": "00000100-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "ServiceDiscoveryServerServiceClassID",
+        "short_description": "Service discovery server service class ID",
+        "uuid": "00001000-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "BrowseGroupDescriptorServiceClassID",
+        "short_description": "Browse group descriptor service class ID",
+        "uuid": "00001001-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "LANAccessUsingPPP",
+        "short_description": "LAN access using PPP",
+        "uuid": "00001102-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "DialupNetworking",
+        "short_description": "Dial-up networking",
+        "uuid": "00001103-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "IrMCSync",
+        "short_description": "IrMC synchronization",
+        "uuid": "00001104-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "OBEXFileTransfer",
+        "short_description": "OBEX file transfer",
+        "uuid": "00001106-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "IrMCSyncCommand",
+        "short_description": "IrMC synchronization command",
+        "uuid": "0001107-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "CordlessTelephony",
+        "short_description": "Cordless telephony",
+        "uuid": "00001109-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "AudioSource",
+        "short_description": "Audio source",
+        "uuid": "0000110A-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "AdvancedAudioDistribution",
+        "short_description": "Advanced audio distribution",
+        "uuid": "0000110D-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Intercom",
+        "short_description": "Intercom",
+        "uuid": "00001110-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Fax",
+        "short_description": "Fax",
+        "uuid": "00001111-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Headset",
+        "short_description": "Audio gateway",
+        "uuid": "00001108-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "WAP",
+        "short_description": "Wireless application protocol",
+        "uuid": "00001113-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "WAPCLIENT",
+        "short_description": "Wireless application protocol client",
+        "uuid": "00001114-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "PANU",
+        "short_description": "Personal area network user",
+        "uuid": "00001115-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "NAP",
+        "short_description": "Network access point",
+        "uuid": "00001116-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "GN",
+        "short_description": "Group ad-hoc network",
+        "uuid": "00001117 -0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "DirectPrinting",
+        "short_description": "Direct printing without access point",
+        "uuid": "00001118-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "ReferencePrinting",
+        "short_description": "Printer gets the content from the content provider's server",
+        "uuid": "00001119-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "BasicImagingProfile",
+        "short_description": "Basic imaging profile",
+        "uuid": "0000111A-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "ImagingResponder",
+        "short_description": "Device that responds to the initiator",
+        "uuid": "0000111B-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "ImagingAutomaticArchive",
+        "short_description": "Imaging automatic archive",
+        "uuid": "0000111C-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "ImagingReferencedObjects",
+        "short_description": "Imaging referenced objects",
+        "uuid": "0000111D-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "HandsfreeAudioGateway",
+        "short_description": "Handsfree audio gateway",
+        "uuid": "0000111F-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "DirectPrintingReferenceObjectsService",
+        "short_description": "Direct printing reference objects service",
+        "uuid": "00001120-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "ReflectedUI",
+        "short_description": "Reflected UI",
+        "uuid": "00001121-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "BasicPrinting",
+        "short_description": "A Bluetooth profile (mode) for printing directly from a mobile device to a Bluetooth-enabled printer",
+        "uuid": "00001122-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "PrintingStatus",
+        "short_description": "Printer printing status monitoring",
+        "uuid": "00001123-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "HardcopyCableReplacement",
+        "short_description": "It defines how printing is accomplished when wirelessly connecting a client",
+        "uuid": "00001125-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "HCRPrint",
+        "short_description": "HCR print",
+        "uuid": "00001126-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "HCRScan",
+        "short_description": "HCR scan",
+        "uuid": "00001127-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "CommonISDNAccess",
+        "short_description": "Common ISDN access",
+        "uuid": "00001128-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "SIMAccess",
+        "short_description": "A Bluetooth profile allowing a GSM phone to share its SIM card with another device of the same type",
+        "uuid": "0000112D-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Phonebook Access - PSE",
+        "short_description": "Shall return only the number of entries registered in the phonebook or callhistories without the body of entries",
+        "uuid": "0000112F-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Phonebook Access - PCE",
+        "short_description": "Shall return only the number of entries registered in the phonebook or callhistories without the body of entries",
+        "uuid": "0000112E-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Phonebook Access",
+        "short_description": "Shall return only the number of entries registered in the phonebook or callhistories without the body of entries",
+        "uuid": "00001130-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Headset – HS",
+        "short_description": "High speed Bluetooth",
+        "uuid": "00001131-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Headset - Audio Gateway",
+        "short_description": "The audio gateway controls the SCO link establishment and release",
+        "uuid": "00001112-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Message Access Server",
+        "short_description": "Allows the vehicle to send and receive SMS messages via a connected remote device",
+        "uuid": "00001132-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Message Notification Server",
+        "short_description": "Allows the vehicle to send and receive notification messages via a connected remote device",
+        "uuid": "00001133-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Message Access Profile",
+        "short_description": "Allows exchange of messages between devices",
+        "uuid": "00001134-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "GNSS",
+        "short_description": "GPS enabled device to share its position data with another device via Bluetooth",
+        "uuid": "00001135-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "GNS SServer",
+        "short_description": "Calculates the position and sends another device via Bluetooth",
+        "uuid": "00001136-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "3D Display",
+        "short_description": "3D display",
+        "uuid": "00001137-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "3D Glasses",
+        "short_description": "Active 3D glasses that use Bluetooth signals instead of infrared (IR) to synchronize the stereo frames",
+        "uuid": "00001138-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "3D Synchronization",
+        "short_description": "3D synchronization",
+        "uuid": "00001139-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "MPS Profile UUID",
+        "short_description": "MPS profile UUID",
+        "uuid": "0000113A-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "MPS SC UUID",
+        "short_description": "MPS SC UUID",
+        "uuid": "0000113B-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "CTN Access Service",
+        "short_description": "Calendar tasks and notes access service",
+        "uuid": "0000113C-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "CTN Notification Service",
+        "short_description": "Calendar tasks and notes  notification service",
+        "uuid": "0000113D-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "CTN Profile",
+        "short_description": "Calendar tasks and notes",
+        "uuid": "0000113E-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "GenericNetworking",
+        "short_description": "Generic networking",
+        "uuid": "00001201-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "GenericFileTransfer",
+        "short_description": "Generic file transfer",
+        "uuid": "00001202-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "GenericAudio",
+        "short_description": "Generic audio",
+        "uuid": "00001203-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "GenericTelephony",
+        "short_description": "Generic telephony",
+        "uuid": "00001204-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "UPNP Service",
+        "short_description": "UPNP service",
+        "uuid": "00001205-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "UPNP IP Service",
+        "short_description": "UPNP IP service",
+        "uuid": "00001206-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "ESDP UPNP IP PAN",
+        "short_description": "ESDP UPNP IP PAN",
+        "uuid": "00001300-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "ESDP UPNP IP LAP",
+        "short_description": "ESDP UPNP IP LAP",
+        "uuid": "00001301-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "ESDP UPNP L2CAP",
+        "short_description": "ESDP UPNP L2CAP",
+        "uuid": "00001302-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "VideoSource",
+        "short_description": "Video source",
+        "uuid": "00001303-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "VideoSink",
+        "short_description": "Video sink",
+        "uuid": "00001304-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Video Distribution",
+        "short_description": "Enabled device streams video over Bluetooth wireless technology",
+        "uuid": "00001305-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "HDP",
+        "short_description": "Health device profile",
+        "uuid": "00001400-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "HDPSource",
+        "short_description": "Health device host profile",
+        "uuid": "00001401-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "HDPSink",
+        "short_description": "Health device sink profile",
+        "uuid": "00001402-0000-1000-8000-00805F9B34FB"
+    },
+    {
+        "name": "Vendor specific",
+        "short_description": "Vendor specific",
+        "uuid": "00005005-0000-1000-8000-0002ee000001"
+    },
+    {
+        "name": "Vendor specific",
+        "short_description": "Vendor specific",
+        "uuid": "12345678-1234-5678-1234-56789abcdef0"
+    },
+    {
+        "name": "Heart Rate",
+        "short_description": "Heart Rate",
+        "uuid": "0000180d-0000-1000-8000-00805f9b34fb"
+    },
+    {
+        "name": "Battery Service",
+        "short_description": "Battery Service",
+        "uuid": "0000180f-0000-1000-8000-00805f9b34fb"
+    },
+    {
+        "name": "Proprietary",
+        "short_description": "Proprietary",
+        "uuid": "00001107-d102-11e1-9b23-00025b00a5a5"
+    }
+]
