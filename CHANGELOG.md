@@ -45,3 +45,7 @@
 ## 0.1.0
 
 * finally, added some features (check doc), code improvement and some bug fix
+
+## 0.1.0+1
+
+* change readme

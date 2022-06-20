@@ -207,28 +207,28 @@ or you can use **StreamBuilder**
 
  if you don't give `UUIDString` parameter, it gives `0x1101`  serial port uuid from itself means it is default
 
-	*// takes it as default 00001101-0000-1000-8000-00805F9B34FB*
-	*// means serial port uuid*
+	// takes it as default 00001101-0000-1000-8000-00805F9B34FB
+	// means serial port uuid
     await blueConnect.connect(macAddress: device.macAddress);
   
   
-    *// or you can give any uuid*
+    // or you can give any uuid
     await blueConnect.connect(macAddress: device.macAddress, UUIDString: "00001200-0000-1000-8000-00805F9B34FB");
 
 **if you want to disconnect from a connected device**
 
-> this method takes a parameter ``macAddress`` type ``String``
+>this method takes a parameter ``macAddress`` type ``String``
 
-   	*// if you want to don't give a parameter so last connection will be disconnect*
+   	// if you want to don't give a parameter so last connection will be disconnect
     await blueConnect.disconnect();
   
   
-    *// or you can give any connected device's **macAddress***
+    // or you can give any connected device's macAddress
     await blueConnect.connect(macAddress: device.macAddress);
 
 ## ***Pair a device***
 
-> this method takes a parameter `macAddress` type `String`
+>this method takes a parameter `macAddress` type `String`
 
     await blueConnect.pair(macAddress: device.macAddress);
 
@@ -260,7 +260,7 @@ add in `/android/app/src/main/AndroidManifest.xml`
     <uses-permission  android:name="android.permission.BLUETOOTH"  android:maxSdkVersion="30"  />
     <uses-permission  android:name="android.permission.BLUETOOTH_ADMIN"  android:maxSdkVersion="30"  />
     
-    //for Android 12
+    // for Android 12
     <uses-permission  android:name="android.permission.BLUETOOTH_SCAN"  /> 
     <uses-permission  android:name="android.permission.BLUETOOTH_ADVERTISE"  />  
     <uses-permission  android:name="android.permission.BLUETOOTH_CONNECT"  />
