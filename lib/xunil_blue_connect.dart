@@ -4,8 +4,10 @@ import 'package:flutter/services.dart';
 
 class XunilBlueConnect {
   static const MethodChannel _channel = MethodChannel('bluetooth');
-  static const EventChannel _eventStartStreamChannel =
-      EventChannel('bluetoothStream');
+  static const EventChannel _eventDeviceResultStreamChannel =
+      EventChannel('deviceResultStream');
+  static const EventChannel _eventStatusStreamChannel =
+      EventChannel('anyStatusResultStream');
 
   Future<bool> isBluetoothAvailable() async {
     final bool isBluetoothAvailable =
@@ -51,11 +53,15 @@ class XunilBlueConnect {
     await _channel.invokeMethod('STOP_DISCOVERY');
   }
 
-  Stream get listenResults async* {
-    yield* _eventStartStreamChannel.receiveBroadcastStream();
+  Stream get listenDeviceResults async* {
+    yield* _eventDeviceResultStreamChannel.receiveBroadcastStream();
   }
 
-  Future<void> pair({required macAddress}) async {
+  Stream get listenStatus async* {
+    yield* _eventStatusStreamChannel.receiveBroadcastStream();
+  }
+
+  Future<void> pair({required String macAddress}) async {
     try {
       await _channel.invokeMethod('PAIR_TO_DEVICE', {'macAddress': macAddress});
     } catch (e) {
@@ -84,16 +90,16 @@ class XunilBlueConnect {
     return await _channel.invokeMethod('GET_PAIRED_DEVICES');
   }
 
-  Future<void> connect({required macAddress}) async {
+  Future<void> connect({required String macAddress, String? UUIDString}) async {
     try {
-      await _channel
-          .invokeMethod('CONNECT_TO_DEVICE', {'macAddress': macAddress});
+      await _channel.invokeMethod('CONNECT_TO_DEVICE',
+          {'macAddress': macAddress, "UUIDString": UUIDString});
     } catch (e) {
       print("Failed to connect: $e");
     }
   }
 
-  Future<void> disconnect({required macAddress}) async {
+  Future<void> disconnect({String? macAddress}) async {
     try {
       await _channel
           .invokeMethod('CLOSE_TO_DEVICE', {'macAddress': macAddress});
@@ -101,4 +107,34 @@ class XunilBlueConnect {
       print("Failed to connect: $e");
     }
   }
+
+  Future<void> write({String? data, bool? autoConnect}) async {
+    try {
+      await _channel.invokeMethod(
+          'WRITE_TO_DEVICE', {"data": data, "autoConnect": autoConnect});
+    } catch (e) {
+      print("Failed to connect: $e");
+    }
+  }
+
+  /*
+
+    TODO read and reset
+
+  */
+  /* Future<void> read() async {
+    try {
+      await _channel.invokeMethod('READ_FROM_DEVICE');
+    } catch (e) {
+      print("Failed to connect: $e");
+    }
+  }
+
+  Future<void> reset() async {
+    try {
+      await _channel.invokeMethod('RESET_READ_DEVICE');
+    } catch (e) {
+      print("Failed to connect: $e");
+    }
+  } */
 }

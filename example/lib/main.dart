@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:xunil_blue_connect/xunil_blue_connect.dart';
 import 'package:xunil_blue_connect_example/device.dart';
+import 'package:xunil_blue_connect/utils/status.dart';
+import 'package:xunil_blue_connect_example/uuid.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,6 +56,48 @@ class _BodyState extends State<MainBody> {
 
   @override
   Widget build(BuildContext context) {
+    bottomsheetForUUIDS(List<UUIDS>? uuids) {
+      return showModalBottomSheet(
+        context: context,
+        isDismissible: true,
+        backgroundColor: Colors.white,
+        builder: (data) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.6,
+            child: ListView.builder(
+              itemCount: uuids?.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  visualDensity: VisualDensity.adaptivePlatformDensity,
+                  style: ListTileStyle.list,
+                  title: Text(
+                    uuids![index].name!.toString(),
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: Text(
+                    uuids[index].shortDescription!.toString(),
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                    ),
+                  ),
+                  trailing: Text(
+                    uuids[index].uuid!.toString(),
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      );
+    }
+
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.85,
       child: Column(
@@ -205,37 +250,72 @@ class _BodyState extends State<MainBody> {
           if (isLoading)
             const LinearProgressIndicator(color: Colors.orangeAccent),
           StreamBuilder(
-            stream: blueConnect.listenResults,
+            stream: blueConnect.listenStatus,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                var device;
-                var snapshotData = snapshot.data as Map<Object?, Object?>;
+                var STATUS = jsonDecode(snapshot.data as String);
 
-                if (snapshotData["pairingStatus"] == null) {
-                  device = BluetoothDevice.fromJson(snapshotData);
+                print(STATUS['MAC_ADDRESS']);
 
-                  bool isEmpty = devices!
-                      .where(
-                        (localAddress) =>
-                            localAddress.address == device.address,
-                      )
-                      .isEmpty;
+                switch (STATUS['STATUS_PAIRING']) {
+                  case PairedStatus.PAIRED:
+                    print(PairedStatus.PAIRED);
+                    break;
+                  case PairedStatus.PAIRING:
+                    print(PairedStatus.PAIRING);
+                    break;
+                  case PairedStatus.PAIRED_NONE:
+                    print(PairedStatus.PAIRED_NONE);
+                    break;
+                  case PairedStatus.UNKNOWN_PAIRED:
+                    print(PairedStatus.UNKNOWN_PAIRED);
+                    break;
+                }
 
-                  if (isEmpty) {
-                    devices?.add(device);
-                  }
+                switch (STATUS['STATUS_CONNECTING']) {
+                  case ConnectingStatus.STATE_CONNECTED:
+                    print(ConnectingStatus.STATE_CONNECTED);
+                    break;
+                  case ConnectingStatus.STATE_DISCONNECTED:
+                    print(ConnectingStatus.STATE_DISCONNECTED);
+                    break;
+                }
+              }
+              return const SizedBox();
+            },
+          ),
+          StreamBuilder(
+            stream: blueConnect.listenDeviceResults,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                var device = BluetoothDevice.fromJson(
+                    jsonDecode(snapshot.data as String));
+
+                bool isEmpty = devices!
+                    .where(
+                      (localAddress) => localAddress.address == device.address,
+                    )
+                    .isEmpty;
+
+                if (isEmpty) {
+                  devices?.add(device);
                 }
 
                 return devices!.isNotEmpty
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: devices?.length,
-                        padding: const EdgeInsets.all(10.0),
-                        itemBuilder: (context, index) {
-                          return ListTile(
+                    ? Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: devices?.length,
+                          padding: const EdgeInsets.all(10.0),
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              onLongPress: () {
+                                bottomsheetForUUIDS(devices![index].uuids);
+                              },
                               onTap: () async {
                                 await blueConnect.connect(
-                                    macAddress: devices![index].address!);
+                                  macAddress: devices![index].address!,
+                                );
                               },
                               title: Text(devices![index].name! +
                                   " (${devices![index].aliasName!})"),
@@ -245,44 +325,81 @@ class _BodyState extends State<MainBody> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  ElevatedButton(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              devices![index].isPaired! ==
-                                                      "PAIRED"
-                                                  ? Colors.lightGreen
-                                                  : Colors.blue),
-                                    ),
-                                    onPressed: () async {
-                                      await blueConnect.pair(
-                                          macAddress: devices![index].address!);
-                                    },
-                                    child: Text(
+                                  SizedBox(
+                                    width: 30.0,
+                                    child: ElevatedButton(
+                                      style: ButtonStyle(
+                                        padding: MaterialStateProperty.all(
+                                            EdgeInsets.zero),
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                          devices![index].isPaired! == "PAIRED"
+                                              ? Colors.lightGreen
+                                              : Colors.blue,
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        await blueConnect.pair(
+                                          macAddress: devices![index].address!,
+                                        );
+                                      },
+                                      child: Text(
                                         devices![index].isPaired! == "PAIRED"
-                                            ? "Connect"
-                                            : "Pair"),
+                                            ? "C"
+                                            : "P",
+                                      ),
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 5.0,
                                   ),
                                   if (devices![index].isPaired! == "PAIRED")
-                                    ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                Colors.redAccent[400]),
+                                    SizedBox(
+                                      width: 30.0,
+                                      child: ElevatedButton(
+                                        style: ButtonStyle(
+                                          padding: MaterialStateProperty.all(
+                                              EdgeInsets.zero),
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.redAccent[400]),
+                                        ),
+                                        onPressed: () async {
+                                          await blueConnect.disconnect();
+                                        },
+                                        child: const Text("D"),
                                       ),
-                                      onPressed: () async {
-                                        await blueConnect.disconnect(
-                                            macAddress:
-                                                devices![index].address!);
-                                      },
-                                      child: const Text("Disconnect"),
+                                    ),
+                                  if (devices![index].isPaired! == "PAIRED")
+                                    const SizedBox(
+                                      width: 5.0,
+                                    ),
+                                  if (devices![index].isPaired! == "PAIRED")
+                                    SizedBox(
+                                      width: 30.0,
+                                      child: ElevatedButton(
+                                        style: ButtonStyle(
+                                          padding: MaterialStateProperty.all(
+                                              EdgeInsets.zero),
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.blueGrey),
+                                        ),
+                                        onPressed: () async {
+                                          await blueConnect.write(
+                                            data:
+                                                "World is something, like something, yeah i know",
+                                            autoConnect: true,
+                                          );
+                                        },
+                                        child: const Text("W"),
+                                      ),
                                     ),
                                 ],
-                              ));
-                        },
+                              ),
+                            );
+                          },
+                        ),
                       )
                     : const SizedBox();
               }

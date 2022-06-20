@@ -41,3 +41,7 @@
 ## 0.0.4+4
 
 * added connect/disconnect a device, pair a device, get paired devices, fixed some bugs and improved code
+
+## 0.1.0
+
+* finally, added some features (check doc), code improvement and some bug fix
