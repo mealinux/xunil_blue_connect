@@ -113,7 +113,7 @@ for example: `PLEASE READ NOTE`
 `isPaired` -> device's pair status
 for example: `PLEASE READ NOTE 2`
 
-`uuids` -> device's uuid or uuids (only for paired devices)
+`uuids` -> device's uuids (only for paired devices)
 for example: `0000110a-0000-1000-8000-00805f9b34fb`
 
 >NOTE: Device types return as DEVICE_TYPE_UNKNOWN, DEVICE_TYPE_CLASSIC, DEVICE_TYPE_LE, DEVICE_TYPE_DUAL, ERROR.
@@ -238,7 +238,7 @@ or you can use **StreamBuilder**
 
 ## *Write, Read and Reset*
 
->NOTE 4: `Read` and `Reset` is in TODO List
+>NOTE 4: `Read` and `Reset` are in TODO List
 
 **Write**
 

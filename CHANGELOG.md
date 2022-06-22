@@ -53,3 +53,7 @@
 ## 0.1.0+2
 
 * fix readme
+  
+## 0.1.0+3
+
+* improvement some codes and document
