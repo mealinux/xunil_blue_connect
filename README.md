@@ -203,9 +203,9 @@ or you can use **StreamBuilder**
 
 > this method takes two parameters
 > one of them is `macAddress` type `String`
-> another of them is `UUIDString` type `String`
+> another of them is `uuidString` type `String`
 
- if you don't give `UUIDString` parameter, it gives `0x1101`  serial port uuid from itself means it is default
+ if you don't give `uuidString` parameter, it gives `0x1101`  serial port uuid from itself means it is default
 
 	// takes it as default 00001101-0000-1000-8000-00805F9B34FB
 	// means serial port uuid
@@ -213,7 +213,7 @@ or you can use **StreamBuilder**
   
   
     // or you can give any uuid
-    await blueConnect.connect(macAddress: device.macAddress, UUIDString: "00001200-0000-1000-8000-00805F9B34FB");
+    await blueConnect.connect(macAddress: device.macAddress, uuidString: "00001200-0000-1000-8000-00805F9B34FB");
 
 **if you want to disconnect from a connected device**
 

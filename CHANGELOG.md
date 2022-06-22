@@ -57,3 +57,7 @@
 ## 0.1.0+3
 
 * improvement some codes and document
+*  
+## 0.1.0+4
+
+* fix
