@@ -157,6 +157,10 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   )
   
 
+  @Serializable
+  data class DiscoveryStatusSerializable(
+    val STATUS_DISCOVERY: String?,
+  )
 
   // Defines several constants used when transmitting messages between the
   // service and the UI.
@@ -169,6 +173,8 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     private const val BLUETOOTH_ENABLE_PERMISSION_NUMBER: Int = 17
     private const val BLUETOOTH_DISABLE_PERMISSION_NUMBER: Int = 18
     private const val LOCATION_PERMISSION_NUMBER: Int = 19
+    private const val LOCATION_ENABLE_PERMISSION_NUMBER: Int = 20
+    private const val PAIRING_CHANGE_NUMBER: Int = 21
 
     //read/write system send target (OS default)
     private const val MESSAGE_READ: Int = 0
@@ -280,6 +286,25 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
     //get uuids and their explain from a json file when trigger this plugin
     getUUIDListFromFile()
+
+    //some intents for register
+    filterAnyStatusFilter = IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED)
+    context.registerReceiver(receiverAnyStatusResult, filterAnyStatusFilter)
+
+    filterAnyStatusFilter = IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED)
+    context.registerReceiver(receiverAnyStatusResult, filterAnyStatusFilter)
+
+    filterAnyStatusFilter = IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED)
+    context.registerReceiver(receiverAnyStatusResult, filterAnyStatusFilter)
+
+    filterAnyStatusFilter = IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_STARTED)
+    context.registerReceiver(receiverAnyStatusResult, filterAnyStatusFilter)
+
+    filterAnyStatusFilter = IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
+    context.registerReceiver(receiverAnyStatusResult, filterAnyStatusFilter)
+
+    filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+    context.registerReceiver(receiverDeviceResults, filter)
   }
 
 
@@ -530,7 +555,9 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
     if(! locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-        activity!!.startActivityForResult(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 1)
+        activity!!.startActivityForResult(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 
+          XunilBlueConnectPlugin.LOCATION_ENABLE_PERMISSION_NUMBER
+        )
 
         goLocationForEnable = true
     }
@@ -673,7 +700,7 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           val device: BluetoothDevice? =
                   intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
 
-          val pairedStatus: Int = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, -1)
+          val pairedStatus: Int = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, XunilBlueConnectPlugin.PAIRING_CHANGE_NUMBER)
 
           eventAnyStatusSink!!.success(Json.encodeToString(PairingStatusSerializable(getIsPaired(pairedStatus))))
         }
@@ -700,6 +727,16 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           //reconnect when write job is done
           if(mainStreamAutoConnect)
             createConnectionToDevice(mainMacAddress, mainUuid.toString())
+        }
+
+        //DISCOVERY_STATUS
+        BluetoothAdapter.ACTION_DISCOVERY_STARTED -> {
+
+          eventAnyStatusSink!!.success(Json.encodeToString(DiscoveryStatusSerializable("STARTED")))
+        }
+        BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> {
+          
+          eventAnyStatusSink!!.success(Json.encodeToString(DiscoveryStatusSerializable("FINISHED")))
         }
       }
     }
@@ -852,9 +889,6 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   */
   fun startDiscovery (result: Result){
     val valueBS = bluetoothAdapter?.startDiscovery()
-
-    filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-    context.registerReceiver(receiverDeviceResults, filter)
     
     Log.d("startDiscovery", "discovery started")
 
@@ -908,9 +942,6 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       bluetoothDeviceForPair.createBond()
 
       bluetoothDevice = bluetoothDeviceForPair
-
-      filterAnyStatusFilter = IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED)
-      context.registerReceiver(receiverAnyStatusResult, filterAnyStatusFilter)
     }
   }
 
@@ -973,12 +1004,6 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
     Log.d("uuid", mainUuid.toString())
 
-    filterAnyStatusFilter = IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED)
-    context.registerReceiver(receiverAnyStatusResult, filterAnyStatusFilter)
-
-    filterAnyStatusFilter = IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED)
-    context.registerReceiver(receiverAnyStatusResult, filterAnyStatusFilter)
-
     //-------------------------------------------------------------------------
     /* 
 
@@ -1013,9 +1038,6 @@ class XunilBlueConnectPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
     if(mainMacAddress != null)
       bluetoothDevice = bluetoothAdapter?.getRemoteDevice(mainMacAddress!!)
-
-    filterAnyStatusFilter = IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED)
-    context.registerReceiver(receiverAnyStatusResult, filterAnyStatusFilter)
 
     ConnectThread(bluetoothDevice).cancel()
   }

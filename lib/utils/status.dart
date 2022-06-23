@@ -11,3 +11,8 @@ class ConnectingStatus {
   static const String STATE_DISCONNECTED = "STATE_DISCONNECTED";
   //static const String STATE_DISCONNECTING = "STATE_DISCONNECTING";
 }
+
+class DiscoveryStatus {
+  static const String STARTED = "STARTED";
+  static const String FINISHED = "FINISHED";
+}

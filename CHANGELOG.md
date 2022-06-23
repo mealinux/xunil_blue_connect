@@ -57,7 +57,10 @@
 ## 0.1.0+3
 
 * improvement some codes and document
-*  
+
 ## 0.1.0+4
 
 * fix
+## 0.1.1
+
+* added discovery status and code improvement

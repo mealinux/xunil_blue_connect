@@ -255,8 +255,7 @@ class _BodyState extends State<MainBody> {
               if (snapshot.hasData) {
                 var STATUS = jsonDecode(snapshot.data as String);
 
-                print(STATUS['MAC_ADDRESS']);
-
+                //for status pairing
                 switch (STATUS['STATUS_PAIRING']) {
                   case PairedStatus.PAIRED:
                     print(PairedStatus.PAIRED);
@@ -272,12 +271,25 @@ class _BodyState extends State<MainBody> {
                     break;
                 }
 
+                //for status connecting
                 switch (STATUS['STATUS_CONNECTING']) {
                   case ConnectingStatus.STATE_CONNECTED:
+                    print(STATUS['MAC_ADDRESS']);
                     print(ConnectingStatus.STATE_CONNECTED);
                     break;
                   case ConnectingStatus.STATE_DISCONNECTED:
+                    print(STATUS['MAC_ADDRESS']);
                     print(ConnectingStatus.STATE_DISCONNECTED);
+                    break;
+                }
+
+                //for status discovery
+                switch (STATUS['STATUS_DISCOVERY']) {
+                  case DiscoveryStatus.STARTED:
+                    print(DiscoveryStatus.STARTED);
+                    break;
+                  case DiscoveryStatus.FINISHED:
+                    print(DiscoveryStatus.FINISHED);
                     break;
                 }
               }

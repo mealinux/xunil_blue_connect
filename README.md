@@ -20,6 +20,7 @@ Only For Android now
 - [x] Get paired device's service uuids
 - [x] Get name and short description with uuid
 - [x] Listen connection and pairing status
+- [x] Listen Start/Stop discovery status
 - [x] Support Android 12
 - [ ] iOS Support
 - [ ] BLE support
@@ -28,7 +29,6 @@ Only For Android now
 - [ ] Auto connect
 - [ ] Reconnect
 - [ ] Remove pair
-- [ ] Listen Start/Stop discovery status
 
 import
 
@@ -143,11 +143,15 @@ like this
 
 
 
-## *Connection and Status Listening*
+## ***Status Listening***
 
->Connection returns `STATUS_CONNECTING` as key with `MAC_ADDRESS` as well
->and
->Status returns `STATUS_PAIRING` as key
+***Discovery, Connection and Pairing***
+
+>As connection `STATUS_CONNECTING` as key with `MAC_ADDRESS` as well
+
+>As pairing status returns `STATUS_PAIRING` as key
+
+>As discovery status returns `STATUS_DISCOVERY` as key
 
      blueConnect.listenStatus.listen((status){
 	   	    print(status);
@@ -157,8 +161,6 @@ or you can use **StreamBuilder**
 
 `import 'package:xunil_blue_connect/utils/status.dart';`
 
-
-
     StreamBuilder(
 	    stream: blueConnect.listenStatus,
 	    builder: (context, snapshot) {
@@ -166,35 +168,43 @@ or you can use **StreamBuilder**
 		    
 			    var  STATUS = jsonDecode(snapshot.data  as  String);
     
-			    //STATUS_PAIRING
-			    
-			    switch (STATUS['STATUS_PAIRING']) {
-				    case  PairedStatus.PAIRED:
-					    //do something
-				    break;
-				    case  PairedStatus.PAIRING:
-					    //do something
-				    break;
-				    case  PairedStatus.PAIRED_NONE:
-					    //do something
-				    break;
-				    case  PairedStatus.UNKNOWN_PAIRED:
-					    //do something
-				    break;
-			    }
-			    
-			    //STATUS_CONNECTING
-			    
-			    // also connection status returns with STATUS['MAC_ADDRESS'] 		
-			  					
-			    switch (STATUS['STATUS_CONNECTING']) {
-				    case  ConnectingStatus.STATE_CONNECTED:
-					    //do something
-				    break
-				    case  ConnectingStatus.STATE_DISCONNECTED:
-					    //do something
-				    break;
-			    }
+			    //for status pairing
+				switch (STATUS['STATUS_PAIRING']) {
+					case  PairedStatus.PAIRED:
+						print(PairedStatus.PAIRED);
+						break;
+					case  PairedStatus.PAIRING:
+						print(PairedStatus.PAIRING);
+						break;
+					case  PairedStatus.PAIRED_NONE:
+						print(PairedStatus.PAIRED_NONE);
+						break;
+					case  PairedStatus.UNKNOWN_PAIRED:
+						print(PairedStatus.UNKNOWN_PAIRED);
+						break;
+				}
+
+				//for status connecting
+				switch (STATUS['STATUS_CONNECTING']) {
+					case  ConnectingStatus.STATE_CONNECTED:
+						print(STATUS['MAC_ADDRESS']);
+						print(ConnectingStatus.STATE_CONNECTED);
+						break;
+					case  ConnectingStatus.STATE_DISCONNECTED:
+						print(STATUS['MAC_ADDRESS']);
+						print(ConnectingStatus.STATE_DISCONNECTED);
+						break;
+				}
+
+				//for status discovery
+				switch (STATUS['STATUS_DISCOVERY']) {
+					case  DiscoveryStatus.STARTED:
+						print(DiscoveryStatus.STARTED);
+						break;
+					case  DiscoveryStatus.FINISHED:
+						print(DiscoveryStatus.FINISHED);
+						break;
+				}
 		    }
 	    },
     ),
